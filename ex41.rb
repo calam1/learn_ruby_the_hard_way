@@ -20,7 +20,7 @@ def central_corridor
   puts "escape pod."
   puts "\n"
   puts "You're running down the central corridor to the Weapons Armory when"
-  puts "a Gothon jumps out, red scaly skin, dark grimy teeth, and eveil clown costume"
+  puts "a Gothon jumps out, red scaly skin, dark grimy teeth, and evil clown costume"
   puts "flowing around his hate filled body.  He's blocking the door to the"
   puts "Armory and about to pull a weapon to blast you."
 
@@ -28,13 +28,13 @@ def central_corridor
   action = STDIN.gets.chomp
 
   if action == "shoot!"
-    puts "Quick on the draw you yank out your blaster and fire it at the Gothon."
+    # puts "Quick on the draw you yank out your blaster and fire it at the Gothon."
     puts "His clown costum is flowing and moving around his body, which throws"
     puts "off your aim.   Your laser hits his costume but misses him entirely.  This"
     puts "completely ruins his brand new costume his mother bought him, which"
     puts "makes him fly into an insane rage and blast you repeatedly in the face until"
     puts "you are dead.  Then he eats you."
-    :death
+    return :death
   elsif action == "dodge!"
     puts "Like a world class boxer you dodge, weave, slip and slide right"
     puts "as the Gothon's blaster cranks a laser past your head."
@@ -42,7 +42,7 @@ def central_corridor
     puts "bang your head on the metal wall and pass out."
     puts "You wake up shortly after only to die as the Gothon stomps on"
     puts "your head and eats you."
-    :death
+    return :death
   elsif action == "tell a joke"
     puts "Lucky for you they make you learn Gothon insults in the academy."
     puts "You tell the one Gothon joke you know:"
@@ -50,10 +50,10 @@ def central_corridor
     puts "The Gothon stops, tries not to laugh, then busts out laughing and can't move."
     puts "While he's laughing you run up and shoot him square in the head"
     puts "putting him down, then jump through the Weapon Armory door."
-    :laser_weapon_armory
+    return :laser_weapon_armory
   else
     puts "DOES NOT COMPUTE!"
-    :central_corridor
+    return :central_corridor
   end
 end
 
@@ -71,7 +71,7 @@ def laser_weapon_armory
   guesses = 0
 
   while guess != code and guesses < 10
-    puts "BZZZZZEDDD!"
+    puts "BZZZZZEDDD! the code is %s" % code
     guesses += 1
     print "[keypad]> "
     guess = STDIN.gets.chomp
@@ -81,13 +81,13 @@ def laser_weapon_armory
     puts "The container clicks open and the seal breaks, letting gas out."
     puts "You grab the neutron bomb and run as fast as you can to the"
     puts "bridge where you must place it in the right spot."
-    :the_bridge
+    return :the_bridge
   else
     puts "The lock buzzes one last time and then you hear a sickening"
     puts "melting sound as the mechanism is fused together."
     puts "You decide to sit there, and finally the Gothons blow up the"
     puts "ship from their ship and you die."
-    :death
+    return :death
   end
 end
 
@@ -109,7 +109,7 @@ def the_bridge
     puts "As you die you see another Gothon frantically try to disarm"
     puts "the bomb.  You die knowing they will probably blow up when"
     puts "it goes off."
-    :death
+    return :death
   elsif action == "slowly place the bomb"
     puts "You point your blaster at the bomb under your arm"
     puts "and the Gothons put their hands up and start to sewat."
@@ -119,10 +119,10 @@ def the_bridge
     puts "and blast the loxk so the Gothosn can't get out."
     puts "Now that the bomb is placed you run to the escape pod to"
     puts "get off this tin can."
-    :escape_pod
+    return :escape_pod
   else 
     puts "DOES NOT COMPUTE!"
-    :the_bridge
+    return :the_bridge
   end
 end
 
@@ -136,6 +136,7 @@ def escape_pod
   puts "do you take?"
 
   good_pod = rand(5) + 1
+  puts "the escape pod is %s" % good_pod
   print "[pod #]>"
   guess = STDIN.gets.chomp
 
@@ -144,7 +145,7 @@ def escape_pod
     puts "The pod escapes out into the void of space, then"
     puts "implodes as the gull ruptures, crushing your body"
     puts "into jam jelly."
-    :death
+    return :death
   else
     puts "You jump into pod %s and hit the eject button." % guess
     puts "The pod easily slides out into space heading to"
@@ -161,7 +162,7 @@ ROOMS = {
   :central_corridor => method(:central_corridor),
   :laser_weapon_armory => method(:laser_weapon_armory),
   :the_bridge => method(:the_bridge),
-  :escape_pod => method(escape_pod)
+  :escape_pod => method(:escape_pod)
 }
 
 def runner(map, start)
